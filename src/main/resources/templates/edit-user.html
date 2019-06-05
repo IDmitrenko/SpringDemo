@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Add new users</title>
+    <title>Edit user</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<form action="#" th:action="@{/adduser}" th:object="${user}" method="post">
+<form action="#" th:action="@{/edit/{id}(id=${id})}" th:object="${user}" method="post">
     <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" class="form-control" id="username" th:field="${user.username}">
@@ -26,7 +26,7 @@
         <input type="email" class="form-control" id="email" th:field="${user.email}">
         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
     </div>
-    <button type="submit" class="btn btn-default">Add User</button>
+    <button type="submit" class="btn btn-default">Edit User</button>
 </form>
 
 </body>
