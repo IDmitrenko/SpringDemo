@@ -7,9 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
+import java.util.Optional;
 
 
 @Controller("/")
@@ -47,14 +51,35 @@ public class UserController {
 
     @GetMapping("/user/{id}/edit")
     public String editUser(@PathVariable("id") Long id, Model model) {
-        // TODO доделать редактирование и убедиться что оно работает
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         model.addAttribute("user", userRepository.findById(id));
-        return "add-user";
+        return "edit-user";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editUser(@PathVariable("id") Long id,
+                           @Valid User user,
+                           BindingResult result,
+                           Model model) {
+        System.out.println(user.getUsername());
+        if (result.hasErrors()) {
+            user.setId(id);
+            System.out.println(user.getUsername());
+            return "edit-user";
+        }
+
+        System.out.println(user.getUsername());
+        userRepository.save(user);
+        model.addAttribute("users", userRepository.findAll());
+        return "user-list";
     }
 
     @GetMapping("/user/{id}/delete")
     public String deleteUser(@PathVariable("id") Long id, Model model) {
-        // TODO доделать удаление пользователя
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        userRepository.delete(user);
         model.addAttribute("users", userRepository.findAll());
         return "user-list";
     }
