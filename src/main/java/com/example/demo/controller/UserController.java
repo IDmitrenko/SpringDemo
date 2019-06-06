@@ -57,19 +57,20 @@ public class UserController {
         return "edit-user";
     }
 
-    @PostMapping("/edit/{id}")
+//    @PostMapping("/edit/{id}")
+    @PostMapping("/user/{id}/edit")
     public String editUser(@PathVariable("id") Long id,
                            @Valid User user,
                            BindingResult result,
                            Model model) {
-        System.out.println(user.getUsername());
+//        System.out.println(user.getUsername());
         if (result.hasErrors()) {
             user.setId(id);
-            System.out.println(user.getUsername());
+//            System.out.println(user.getUsername());
             return "edit-user";
         }
 
-        System.out.println(user.getUsername());
+//        System.out.println(user.getUsername());
         userRepository.save(user);
         model.addAttribute("users", userRepository.findAll());
         return "user-list";

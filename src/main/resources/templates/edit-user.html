@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<form action="#" th:action="@{/edit/{id}(id=${id})}" th:object="${user}" method="post">
+<form action="#" th:action="@{/user/{id}/edit(id=${id})}" th:object="${user}" method="post">
     <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" class="form-control" id="username" th:field="${user.username}">
